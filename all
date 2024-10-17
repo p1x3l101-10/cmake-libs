@@ -1,0 +1,3 @@
+include(${CMAKE_CURRENT_LIST_DIR}/config.cmake)
+include(${CMAKE_CURRENT_LIST_DIR}/init.cmake)
+include(${CMAKE_CURRENT_LIST_DIR}/functions.cmake)
