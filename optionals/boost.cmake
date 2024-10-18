@@ -10,6 +10,8 @@ if(NOT CMAKE_LIBS_OPTIONALS_BOOST_VERSION)
     message(FATAL_ERROR "Boost version needs to be specified")
 endif()
 
+message(VERBOSE "Adding boost with components: ${CMAKE_LIBS_OPTIONALS_BOOST_COMPONENTS}")
+
 find_package(
     Boost ${CMAKE_LIBS_OPTIONALS_BOOST_VERSION}
     COMPONENTS ${CMAKE_LIBS_OPTIONALS_BOOST_COMPONENTS}

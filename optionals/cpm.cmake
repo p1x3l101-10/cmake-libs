@@ -5,6 +5,8 @@ if(NOT CMAKE_LIBS_OPTIONALS_CPM_SHA256SUM)
     set(CMAKE_LIBS_OPTIONALS_CPM_SHA256SUM "cc155ce02e7945e7b8967ddfaff0b050e958a723ef7aad3766d368940cb15494")
 endif()
 
+message(VERBOSE "Adding CPM version: ${CMAKE_LIBS_OPTIONALS_CPM_VERSION}")
+
 file(
     DOWNLOAD https://github.com/cpm-cmake/CPM.cmake/releases/download/v${CMAKE_LIBS_OPTIONALS_CPM_VERSION}/CPM.cmake
     ${CMAKE_CURRENT_BINARY_DIR}/cmake/CPM.cmake
