@@ -27,12 +27,12 @@ if(NOT Boost_FOUND)
         include(${CMAKE_CURRENT_LIST_DIR}/cpm.cmake)
     endif()
     # Download the lib
+    set(BOOST_INCLUDE_LIBRARIES "${CMAKE_LIBS_OPTIONALS_BOOST_COMPONENTS}")
     CPMAddPackage(
         NAME Boost
         VERSION ${CMAKE_LIBS_OPTIONALS_BOOST_VERSION}
         URL "https://github.com/boostorg/boost/releases/download/boost-${CMAKE_LIBS_OPTIONALS_BOOST_VERSION}/boost-${CMAKE_LIBS_OPTIONALS_BOOST_VERSION}-cmake.tar.xz"
         OPTIONS
-            "BOOST_ENABLE_CMAKE ON"
-            "BOOST_INCLUDE_LIBRARIES ${CMAKE_LIBS_OPTIONALS_BOOST_COMPONENTS}"
+            "BOOST_SKIP_INSTALL_RULES OFF"
     )
 endif()
