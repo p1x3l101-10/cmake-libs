@@ -25,6 +25,6 @@ if(NOT Boost_FOUND)
     set(BOOST_INCLUDE_LIBRARIES CMAKE_LIBS_OPTIONALS_BOOST_COMPONENTS)
     CPMAddPackage(
         NAME Boost
-        URL "https://github.com/boostorg/boost/releases/download/boost-${CMAKE_LIBS_OPTIONALS_BOOST_VERSION}/boost-${CMAKE_LIBS_OPTIONALS_BOOST_VERSION}.tar.xz"
+        URL "https://github.com/boostorg/boost/releases/download/boost-${CMAKE_LIBS_OPTIONALS_BOOST_VERSION}/boost-${CMAKE_LIBS_OPTIONALS_BOOST_VERSION}-b2-nodocs.tar.xz"
     )
 endif()
