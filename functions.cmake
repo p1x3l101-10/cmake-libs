@@ -72,7 +72,7 @@ function(BUILD)
 
     # Link boost libs
     if(BUILD_LINK_BOOST)
-        foreach(lib IN CMAKE_LIBS_OPTIONALS_BOOST_COMPONENTS)
+        foreach(lib IN LISTS CMAKE_LIBS_OPTIONALS_BOOST_COMPONENTS)
             message(VERBOSE "   Linking Boost library: ${lib}")
             target_link_libraries(${BUILD_TARGET} PRIVATE Boost::${lib})
         endforeach()
