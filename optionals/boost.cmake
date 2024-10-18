@@ -16,6 +16,10 @@ find_package(
 message(VERBOSE "   Local boost not found, downloading via CPM.cmake")
 
 if(NOT Boost_FOUND)
+    # Current method can only use boost >= v1.85.0
+    if(CMAKE_LIBS_OPTIONALS_BOOST_VERSION LESS 1.85.0)
+        message(FATAL_ERROR "Can't download a boost library under v1.85.0")
+    endif()
     # Use cpm if a local version can't be used
     # Ensure that CPM is available
     if(NOT "cpm" IN_LIST CMAKE_LIBS_OPTIONALS)
@@ -26,7 +30,7 @@ if(NOT Boost_FOUND)
     CPMAddPackage(
         NAME Boost
         VERSION ${CMAKE_LIBS_OPTIONALS_BOOST_VERSION}
-        URL "https://github.com/boostorg/boost/releases/download/boost-${CMAKE_LIBS_OPTIONALS_BOOST_VERSION}/boost-${CMAKE_LIBS_OPTIONALS_BOOST_VERSION}-b2-nodocs.tar.xz"
+        URL "https://github.com/boostorg/boost/releases/download/boost-${CMAKE_LIBS_OPTIONALS_BOOST_VERSION}/boost-${CMAKE_LIBS_OPTIONALS_BOOST_VERSION}-cmake.tar.xz"
         OPTIONS
             "BOOST_ENABLE_CMAKE ON"
             "BOOST_INCLUDE_LIBRARIES ${CMAKE_LIBS_OPTIONALS_BOOST_COMPONENTS}"
