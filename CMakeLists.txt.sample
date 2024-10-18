@@ -1,0 +1,12 @@
+cmake_minimum_required(VERSION 3.30)
+project("sample")
+include(cmake/all)
+
+# Add boost
+add_package(Boost 1.45.0 REQUIRED COMPONENTS system)
+
+build(
+    BINARY test
+    LIBRARIES Boost::headers Boost::system
+)
+
