@@ -15,7 +15,10 @@ message(VERBOSE "Adding boost with components: ${CMAKE_LIBS_OPTIONALS_BOOST_COMP
 find_package(
     Boost ${CMAKE_LIBS_OPTIONALS_BOOST_VERSION}
     COMPONENTS ${CMAKE_LIBS_OPTIONALS_BOOST_COMPONENTS}
+    QUIET # Dont warn if the lib is not found, we are going to download it instead
 )
+
+message(VERBOSE "   Local boost not found, downloading via CPM.cmake")
 
 if(NOT Boost_FOUND)
     # Use cpm if a local version can't be used
