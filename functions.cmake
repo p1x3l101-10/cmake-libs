@@ -36,16 +36,18 @@ macro (install_target target)
 endmacro()
 
 function(BUILD)
-    # Parse arguments
+    # Set valid arguments
     set(options INSTALL_TARGET)
     set(oneValueArgs STATIC_LIBRARY SHARED_LIBRARY BINARY HEADER_LIBRARY)
     set(multiValueArgs LIBRARIES PUBLIC_LIBRARIES INTERFACE_LIBRARIES INCLUDE)
-    cmake_parse_arguments(BUILD "${options}" "${oneValueArgs}" "${multiValueArgs}" ${ARGN} )
 
     # If boost is added, add a nice little option for it
     if("boost" IN_LIST CMAKE_LIBS_OPTIONALS)
         list(APPEND options LINK_BOOST)
     endif()
+
+    # Parse args
+    cmake_parse_arguments(BUILD "${options}" "${oneValueArgs}" "${multiValueArgs}" ${ARGN} )
 
     # Add basic build rules and export the build target in one variable
     if(BUILD_STATIC_LIBRARY)
