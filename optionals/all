@@ -1,0 +1,7 @@
+list(REMOVE_DUPLICATES CMAKE_LIBS_OPTIONALS)
+if("cpm" IN_LIST CMAKE_LIBS_OPTIONALS)
+    include(${CMAKE_CURRENT_LIST_DIR}/cpm.cmake)
+endif()
+if("boost" IN_LIST CMAKE_LIBS_OPTIONALS)
+    include(${CMAKE_CURRENT_LIST_DIR}/boost.cmake)
+endif()
