@@ -42,6 +42,11 @@ function(BUILD)
     set(multiValueArgs LIBRARIES PUBLIC_LIBRARIES INTERFACE_LIBRARIES INCLUDE)
     cmake_parse_arguments(BUILD "${options}" "${oneValueArgs}" "${multiValueArgs}" ${ARGN} )
 
+    # If boost is added, add a nice little option for it
+    if("boost" IN_LIST CMAKE_LIBS_OPTIONALS)
+        list(APPEND options LINK_BOOST)
+    endif()
+
     # Add basic build rules and export the build target in one variable
     if(BUILD_STATIC_LIBRARY)
         message(VERBOSE "Creating ruleset for static library: ${BUILD_STATIC_LIBRARY}...")
@@ -62,6 +67,15 @@ function(BUILD)
     elseif()
         message(FATAL_ERROR "You need to specify a build type/target")
     endif()
+
+    # Link boost libs
+    if(BUILD_LINK_BOOST)
+        foreach(lib IN CMAKE_LIBS_OPTIONALS_BOOST_COMPONENTS)
+            message(VERBOSE "   Linking Boost library: ${lib}")
+            target_link_libraries(${BUILD_TARGET} PRIVATE Boost::${lib})
+        endforeach()
+    endif()
+
     # Link libraries
     foreach(lib IN LISTS BUILD_LIBRARIES)
         message(VERBOSE "    Linking private library ${lib}")
@@ -75,11 +89,13 @@ function(BUILD)
         message(VERBOSE "    Linking interface library ${lib}")
         target_link_libraries(${BUILD_TARGET} INTERFACE ${lib})
     endforeach()
+
     # Extra include directories
     foreach(dir IN LISTS BUILD_INCLUDE)
         message(VERBOSE "    Including directory ${dir}")
         target_include_directories(${BUILD_TARGET} PRIVATE ${include})
     endforeach()
+
     # Generate config file if project has a template
     if(EXISTS ${CMAKE_CURRENT_SOURCE_DIR}/${BUILD_TARGET}/include/config.hpp.in)
         message(VERBOSE "    Generating config.hpp from template")
@@ -87,6 +103,7 @@ function(BUILD)
         configure_file(${CMAKE_CURRENT_SOURCE_DIR}/${BUILD_TARGET}/include/config.hpp.in ${CMAKE_CURRENT_BINARY_DIR}/${BUILD_TARGET}/include/config.hpp)
         target_include_directories(${BUILD_TARGET} PRIVATE ${CMAKE_CURRENT_BINARY_DIR}/${BUILD_TARGET}/include)
     endif()
+
     # Add install rule if told to
     if(${BUILD_INSTALL_TARGET})
         message(VERBOSE "    Adding install rule")
