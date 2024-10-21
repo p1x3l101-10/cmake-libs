@@ -22,10 +22,8 @@ if(NOT Boost_FOUND)
     endif()
     # Use cpm if a local version can't be used
     # Ensure that CPM is available
-    if(NOT "cpm" IN_LIST CMAKE_LIBS_OPTIONALS)
-        list(APPEND CMAKE_LIBS_OPTIONALS "cpm")
-        include(${CMAKE_CURRENT_LIST_DIR}/cpm.cmake)
-    endif()
+    include(${CMAKE_CURRENT_LIST_DIR}/../lib/ensureCPM.cmake)
+    ensureCPM()
     # Download the lib
     set(BOOST_INCLUDE_LIBRARIES "${CMAKE_LIBS_OPTIONALS_BOOST_COMPONENTS}")
     CPMAddPackage(
