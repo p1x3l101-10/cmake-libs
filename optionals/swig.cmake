@@ -1,6 +1,6 @@
 find_package(SWIG REQUIRED)
 include(${SWIG_USE_FILE})
-macro(ADDSWIG target source_files)
+macro(ADDSWIG target)
     # Swig python module
     find_package(PythonLibs)
     if(PythonLibs_FOUND)

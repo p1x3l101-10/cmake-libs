@@ -41,9 +41,12 @@ function(BUILD)
     set(oneValueArgs STATIC_LIBRARY SHARED_LIBRARY BINARY HEADER_LIBRARY)
     set(multiValueArgs LIBRARIES PUBLIC_LIBRARIES INTERFACE_LIBRARIES INCLUDE)
 
-    # If boost is added, add a nice little option for it
+    # Add modules for optionals
     if("boost" IN_LIST CMAKE_LIBS_OPTIONALS)
         list(APPEND options LINK_BOOST)
+    endif()
+    if("swig" IN_LIST CMAKE_LIBS_OPTIONALS)
+        list(APPEND options ADD_SWIG)
     endif()
 
     # Parse args
@@ -70,12 +73,15 @@ function(BUILD)
         message(FATAL_ERROR "You need to specify a build type/target")
     endif()
 
-    # Link boost libs
+    # Add optionals
     if(BUILD_LINK_BOOST)
         foreach(lib IN LISTS CMAKE_LIBS_OPTIONALS_BOOST_COMPONENTS)
             message(VERBOSE "   Linking Boost library: ${lib}")
             target_link_libraries(${BUILD_TARGET} PRIVATE Boost::${lib})
         endforeach()
+    endif()
+    if(BUILD_ADD_SWIG)
+        addswig(${BUILD_TARGET})
     endif()
 
     # Link libraries
