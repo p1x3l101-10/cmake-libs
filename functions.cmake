@@ -108,8 +108,8 @@ function(BUILD)
     if(EXISTS ${CMAKE_CURRENT_SOURCE_DIR}/${BUILD_TARGET}/include/config.hpp.in)
         message(VERBOSE "    Generating config.hpp from template")
         include(GNUInstallDirs)
-        configure_file(${CMAKE_CURRENT_SOURCE_DIR}/${BUILD_TARGET}/include/config.hpp.in ${CMAKE_CURRENT_BINARY_DIR}/${BUILD_TARGET}/include/config.hpp)
-        target_include_directories(${BUILD_TARGET} PRIVATE ${CMAKE_CURRENT_BINARY_DIR}/${BUILD_TARGET}/include)
+        configure_file(${CMAKE_CURRENT_SOURCE_DIR}/${BUILD_TARGET}/include/config.hpp.in ${CMAKE_CURRENT_BINARY_DIR}/.gen/${BUILD_TARGET}/include/config.hpp)
+        target_include_directories(${BUILD_TARGET} PRIVATE ${CMAKE_CURRENT_BINARY_DIR}/.gen/${BUILD_TARGET}/include)
     endif()
 
     # Add install rule if told to
