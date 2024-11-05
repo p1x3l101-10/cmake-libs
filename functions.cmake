@@ -38,7 +38,7 @@ endmacro()
 function(BUILD)
     # Set valid arguments
     set(options INSTALL_TARGET)
-    set(oneValueArgs STATIC_LIBRARY SHARED_LIBRARY BINARY HEADER_LIBRARY)
+    set(oneValueArgs STATIC_LIBRARY SHARED_LIBRARY BINARY HEADER_LIBRARY COMPILE_OPTIONS PUBLIC_COMPILE_OPTIONS)
     set(multiValueArgs LIBRARIES PUBLIC_LIBRARIES INTERFACE_LIBRARIES INCLUDE)
 
     # Add modules for optionals
@@ -103,6 +103,14 @@ function(BUILD)
         message(VERBOSE "    Including directory ${dir}")
         target_include_directories(${BUILD_TARGET} PRIVATE ${include})
     endforeach()
+
+    # Compile options
+    if(BUILD_COMPILE_OPTIONS)
+        message(VERBOSE "   Adding compilation options: ${BUILD_COMPILE_OPTIONS}")
+    endif()
+    if(BUILD_PUBLIC_COMPILE_OPTIONS)
+        message(VERBOSE "   Adding public compilation options: ${BUILD_PUBLIC_COMPILE_OPTIONS}")
+    endif()
 
     # Generate config file if project has a template
     if(EXISTS ${CMAKE_CURRENT_SOURCE_DIR}/${BUILD_TARGET}/include/config.hpp.in)
