@@ -107,9 +107,11 @@ function(BUILD)
     # Compile options
     if(BUILD_COMPILE_OPTIONS)
         message(VERBOSE "   Adding compilation options: ${BUILD_COMPILE_OPTIONS}")
+        target_compile_options(${BUILD_TARGET} PRIVATE ${BUILD_COMPILE_OPTIONS})
     endif()
     if(BUILD_PUBLIC_COMPILE_OPTIONS)
         message(VERBOSE "   Adding public compilation options: ${BUILD_PUBLIC_COMPILE_OPTIONS}")
+        target_compile_options(${BUILD_TARGET} PRIVATE ${BUILD_PUBLIC_COMPILE_OPTIONS})
     endif()
 
     # Generate config file if project has a template
