@@ -13,9 +13,8 @@ find_package(
     QUIET # Dont warn if the lib is not found, we are going to download it instead
 )
 
-message(VERBOSE "   Local boost not found, downloading via CPM.cmake")
-
 if(NOT Boost_FOUND)
+    message(VERBOSE "   Local boost not found, downloading via CPM.cmake")
     # Current method can only use boost >= v1.85.0
     if(CMAKE_LIBS_OPTIONALS_BOOST_VERSION LESS 1.85.0)
         message(FATAL_ERROR "Can't download a boost library under v1.85.0")
