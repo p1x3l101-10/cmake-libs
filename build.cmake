@@ -82,7 +82,7 @@ function(BUILD)
 
     # Modules
     if(BUILD_GENERATE_MODULES)
-        file(GLOB_RECURSE MODULES "${CMAKE_CURRENT_SOURCE_DIR}/${BUILD_TARGET}/modules/*.cppm"
+        file(GLOB_RECURSE MODULES "${CMAKE_CURRENT_SOURCE_DIR}/${BUILD_TARGET}/modules/*.cppm")
         target_sources(${BUILD_TARGET} FILE_SET CXX_MODULES FILES )
     endif()
 
