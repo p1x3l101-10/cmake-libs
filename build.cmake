@@ -11,6 +11,9 @@ function(BUILD)
     if("swig" IN_LIST CMAKE_LIBS_OPTIONALS)
         list(APPEND options ADD_SWIG)
     endif()
+    if(USE_CPP_20_IMPORTS)
+        list(APPEND options GENERATE_MODULES)
+    endif()
 
     # Parse args
     cmake_parse_arguments(BUILD "${options}" "${oneValueArgs}" "${multiValueArgs}" ${ARGN} )
@@ -75,6 +78,12 @@ function(BUILD)
     if(BUILD_PUBLIC_COMPILE_OPTIONS)
         message(VERBOSE "   Adding public compilation options: ${BUILD_PUBLIC_COMPILE_OPTIONS}")
         target_compile_options(${BUILD_TARGET} PRIVATE ${BUILD_PUBLIC_COMPILE_OPTIONS})
+    endif()
+
+    # Modules
+    if(BUILD_GENERATE_MODULES)
+        file(GLOB_RECURSE MODULES "${CMAKE_CURRENT_SOURCE_DIR}/${BUILD_TARGET}/modules/*.cppm"
+        target_sources(${BUILD_TARGET} FILE_SET CXX_MODULES FILES )
     endif()
 
     # Generate config file if project has a template
