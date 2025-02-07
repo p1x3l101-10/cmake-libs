@@ -1,7 +1,7 @@
 function(BUILD)
     # Set valid arguments
     set(options INSTALL_TARGET)
-    set(oneValueArgs STATIC_LIBRARY SHARED_LIBRARY BINARY HEADER_LIBRARY COMPILE_OPTIONS PUBLIC_COMPILE_OPTIONS)
+    set(oneValueArgs STATIC_LIBRARY SHARED_LIBRARY BINARY HEADER_LIBRARY COMPILE_OPTIONS PUBLIC_COMPILE_OPTIONS FILE_EXTENSION)
     set(multiValueArgs LIBRARIES PUBLIC_LIBRARIES INTERFACE_LIBRARIES INCLUDE)
 
     # Add modules for optionals
@@ -18,22 +18,27 @@ function(BUILD)
     # Parse args
     cmake_parse_arguments(BUILD "${options}" "${oneValueArgs}" "${multiValueArgs}" ${ARGN} )
 
+    # Set default filetype
+    if(NOT BUILD_FILE_EXTENSION)
+        set(BUILD_FILE_EXTENSION "cpp")
+    endif()
+
     # Add basic build rules and export the build target in one variable
     if(BUILD_STATIC_LIBRARY)
         message(VERBOSE "Creating ruleset for static library: ${BUILD_STATIC_LIBRARY}...")
-        module(staticLib ${BUILD_STATIC_LIBRARY})
+        module(staticLib ${BUILD_STATIC_LIBRARY} ${BUILD_FILE_EXTENSION})
         set(BUILD_TARGET ${BUILD_STATIC_LIBRARY})
     elseif(BUILD_SHARED_LIBRARY)
         message(VERBOSE "Creating ruleset for shared library: ${BUILD_SHARED_LIBRARY}...")
-        module(staticLib ${BUILD_SHARED_LIBRARY})
+        module(staticLib ${BUILD_SHARED_LIBRARY} ${BUILD_FILE_EXTENSION})
         set(BUILD_TARGET ${BUILD_SHARED_LIBRARY})
     elseif(BUILD_BINARY)
         message(VERBOSE "Creating ruleset for binary: ${BUILD_BINARY}...")
-        module(bin ${BUILD_BINARY})
+        module(bin ${BUILD_BINARY} ${BUILD_FILE_EXTENSION})
         set(BUILD_TARGET ${BUILD_BINARY})
     elseif(BUILD_HEADER_LIBRARY)
         message(VERBOSE "Creating ruleset for header library: ${BUILD_HEADER_LIBRARY}...")
-        module(header ${BUILD_HEADER_LIBRARY})
+        module(header ${BUILD_HEADER_LIBRARY} ${BUILD_FILE_EXTENSION})
         set(BUILD_TARGET ${BUILD_HEADER_LIBRARY})
     elseif()
         message(FATAL_ERROR "You need to specify a build type/target")
