@@ -1,7 +1,7 @@
 function(BUILD)
     # Set valid arguments
     set(options INSTALL_TARGET)
-    set(oneValueArgs STATIC_LIBRARY SHARED_LIBRARY BINARY HEADER_LIBRARY COMPILE_OPTIONS PUBLIC_COMPILE_OPTIONS FILE_EXTENSION)
+    set(oneValueArgs STATIC_LIBRARY SHARED_LIBRARY BINARY HEADER_LIBRARY COMPILE_OPTIONS PUBLIC_COMPILE_OPTIONS LINK_OPTIONS PUBLIC_LINK_OPTIONS FILE_EXTENSION)
     set(multiValueArgs LIBRARIES PUBLIC_LIBRARIES INTERFACE_LIBRARIES INCLUDE)
 
     # Add modules for optionals
@@ -65,7 +65,16 @@ function(BUILD)
     endif()
     if(BUILD_PUBLIC_COMPILE_OPTIONS)
         message(VERBOSE "   Adding public compilation options: ${BUILD_PUBLIC_COMPILE_OPTIONS}")
-        target_compile_options(${BUILD_TARGET} PRIVATE ${BUILD_PUBLIC_COMPILE_OPTIONS})
+        target_compile_options(${BUILD_TARGET} PUBLIC ${BUILD_PUBLIC_COMPILE_OPTIONS})
+    endif()
+    # Link options
+    if(BUILD_LINK_OPTIONS)
+        message(VERBOSE "   Adding linking options: ${BUILD_COMPILE_OPTIONS}")
+        target_link_options(${BUILD_TARGET} PRIVATE ${BUILD_COMPILE_OPTIONS})
+    endif()
+    if(BUILD_PUBLIC_LINK_OPTIONS)
+        message(VERBOSE "   Adding public linking options: ${BUILD_PUBLIC_COMPILE_OPTIONS}")
+        target_link_options(${BUILD_TARGET} PUBLIC ${BUILD_PUBLIC_COMPILE_OPTIONS})
     endif()
 
     # Modules
