@@ -6,6 +6,7 @@ function(BUILD)
 
     # Add modules for optionals
     if(USE_CPP_20_IMPORTS)
+        list(APPEND oneValueArgs MODULE_EXTENSION)
         list(APPEND options GENERATE_MODULES)
     endif()
 
@@ -79,7 +80,10 @@ function(BUILD)
 
     # Modules
     if(BUILD_GENERATE_MODULES)
-        file(GLOB_RECURSE MODULES CONFIGURE_DEPENDS "${CMAKE_CURRENT_SOURCE_DIR}/${BUILD_TARGET}/modules/*.cppm")
+        if(NOT BUILD_MODULE_EXTENSION)
+            set(BUILD_MODULE_EXTENSION "ixx")
+        endif()
+        file(GLOB_RECURSE MODULES CONFIGURE_DEPENDS "${CMAKE_CURRENT_SOURCE_DIR}/${BUILD_TARGET}/modules/*.${BUILD_MODULE_EXTENSION}")
         target_sources(${BUILD_TARGET} PUBLIC FILE_SET CXX_MODULES MODULES)
     endif()
 
