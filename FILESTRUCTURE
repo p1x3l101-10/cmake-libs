@@ -1,0 +1,4 @@
+$targetName: Root folder for all files belonging to target
+| - include: Where header files go, `config.hpp.in` (at the base) will get configured like any other cmake configure file (must use .hpp extension) recursive
+| - src: C++ source files (must use .cpp extension) recursive
+| - modules: Where modules would go, still trying to figure those out tho, also recursive
