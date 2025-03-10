@@ -84,9 +84,9 @@ function(BUILD)
             set(BUILD_MODULE_EXTENSION "ixx")
         endif()
         message(VERBOSE "    Using c++ modules")
-        file(GLOB_RECURSE MODULES CONFIGURE_DEPENDS "${CMAKE_CURRENT_SOURCE_DIR}/${BUILD_TARGET}/modules/*.${BUILD_MODULE_EXTENSION}")
+        file(GLOB_RECURSE modules CONFIGURE_DEPENDS "${CMAKE_CURRENT_SOURCE_DIR}/${BUILD_TARGET}/modules/*.${BUILD_MODULE_EXTENSION}")
         set_target_properties(${BUILD_TARGET} PROPERTIES CXX_SCAN_FOR_MODULES ON)
-        target_sources(${BUILD_TARGET} PUBLIC FILE_SET CXX_MODULES "${MODULES}")
+        target_sources(${BUILD_TARGET} PUBLIC FILE_SET CXX_MODULES FILES ${modules})
     endif()
 
     # Generate config file if project has a template
