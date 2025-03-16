@@ -24,7 +24,6 @@ function(BUILD)
             set(BUILD_GENERATOR_EXTENSION "bash")
         endif()
         set(CODE_GENERATOR "generator.${BUILD_GENERATOR_EXTENSION}")
-        message(VERBOSE "Using code generator for target...")
     elseif()
         set(CODE_GENERATOR "") #Undef if unused
     endif()
