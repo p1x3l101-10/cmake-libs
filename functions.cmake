@@ -1,4 +1,12 @@
-function(module type name fileExt)
+function(module type name fileExt codeGen)
+    if(NOT (codeGen STREQUAL ""))
+        message(VERBOSE "    Running code generator...")
+        execute_process(
+            COMMAND ${CMAKE_CURRENT_SOURCE_DIR}/${name}/${codeGen}
+            WORKING_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}/${name}
+            OUTPUT_QUIET
+        )
+    endif()
     if(${type} STREQUAL "sharedLib")
         file(GLOB_RECURSE source_files CONFIGURE_DEPENDS "${CMAKE_CURRENT_SOURCE_DIR}/${name}/src/*.${fileExt}")
         add_library(${name} SHARED ${source_files})
