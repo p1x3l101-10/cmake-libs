@@ -65,6 +65,10 @@ function(BuildExternalProject)
     set(BEP_INSTALL_PATH_LIB "${BEP_INSTALL_PATH}/lib")
     set(BEP_INSTALL_PATH_INCLUDE "${BEP_INSTALL_PATH}/include")
 
+    if(BEP_MESON_PROJECT)
+        find_program(MESON_BIN NAMES meson)
+    endif()
+
     ExternalProject_Add(
         ${BEP_NAME}_external
         if(BEP_MESON_PROJECT)
