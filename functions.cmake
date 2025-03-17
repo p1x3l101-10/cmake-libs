@@ -69,18 +69,19 @@ function(BuildExternalProject)
         find_program(MESON_BIN NAMES meson)
     endif()
 
-    ExternalProject_Add(
-        ${BEP_NAME}_external
-        if(BEP_MESON_PROJECT)
+    if(BEP_MESON_PROJECT)
+        ExternalProject_Add(
+            ${BEP_NAME}_external
             CONFIGURE_COMMAND ${MESON_BIN} setup --prefix <INSTALL_DIR> <BINARY_DIR> <SOURCE_DIR>
             BUILD_COMMAND ${MESON_BIN} compile -C <BINARY_DIR> --verbose
             INSTALL_COMMAND ${MESON_BIN} install -C <BINARY_DIR>
-        endif()
-        GIT_REPOSITORY ${BEP_GIT_REPO}
-        GIT_TAG ${BEP_GIT_REV}
-        GIT_SHALLOW true
-        GIT_PROGRESS true
-    )
+            GIT_REPOSITORY ${BEP_GIT_REPO}
+            GIT_TAG ${BEP_GIT_REV}
+            GIT_SHALLOW true
+            GIT_PROGRESS true
+        )
+    endif()
+    
     file(MAKE_DIRECTORY "${BEP_INSTALL_PATH_INCLUDE}")
     add_library(BEP::${BEP_NAME} INTERFACE IMPORTED GLOBAL ${BEP_NAME}_external)
     target_include_directories(BEP::${BEP_NAME} INTERFACE ${INSTALL_PATH_INCLUDE})
