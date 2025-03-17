@@ -61,7 +61,7 @@ function(BuildExternalProject)
 
     cmake_parse_arguments(BEP "${options}" "${oneValueArgs}" "${multiValueArgs}" ${ARGN} )
 
-    set(BEP_INSTALL_PATH "${PROJECT_SOURCE_DIR}/bep/${BEP_NAME}")
+    set(BEP_INSTALL_PATH "${PROJECT_BINARY_DIR}/bep/${BEP_NAME}")
     set(BEP_INSTALL_PATH_LIB "${BEP_INSTALL_PATH}/lib")
     set(BEP_INSTALL_PATH_INCLUDE "${BEP_INSTALL_PATH}/include")
 
