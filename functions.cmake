@@ -46,3 +46,40 @@ function(ADD_PACKAGE NAME)
     message(VERBOSE "Adding dependancy ${NAME} to environment")
     find_package(${ARGV})
 endfunction()
+
+include(ExternalProject)
+
+macro(append_cmake_prefix_path)
+    list(APPEND CMAKE_PREFIX_PATH ${ARGN})
+    string(REPLACE ";" "|" CMAKE_PREFIX_PATH "${CMAKE_PREFIX_PATH}")
+endmacro()
+
+function(BuildExternalProject)
+    set(options MESON_PROJECT)
+    set(oneValueArgs NAME GIT_REPO GIT_REV)
+    set(multiValueArgs)
+
+    cmake_parse_arguments(BEP "${options}" "${oneValueArgs}" "${multiValueArgs}" ${ARGN} )
+
+    set(BEP_INSTALL_PATH "${PROJECT_SOURCE_DIR}/bep/${BEP_NAME}")
+    set(BEP_INSTALL_PATH_LIB "${BEP_INSTALL_PATH}/lib")
+    set(BEP_INSTALL_PATH_INCLUDE "${BEP_INSTALL_PATH}/include")
+
+    ExternalProject_Add(
+        ${BEP_NAME}_external
+        if(BEP_MESON_PROJECT)
+            CONFIGURE_COMMAND ${MESON_BIN} setup --prefix <INSTALL_DIR> <BINARY_DIR> <SOURCE_DIR>
+            BUILD_COMMAND ${MESON_BIN} compile -C <BINARY_DIR> --verbose
+            INSTALL_COMMAND ${MESON_BIN} install -C <BINARY_DIR>
+        endif()
+        GIT_REPO ${BEP_GIT_REPO}
+        GIT_TAG ${BEP_GIT_REV}
+        GIT_SHALLOW true
+        GIT_PROGRESS true
+    )
+    file(MAKE_DIRECTORY "${BEP_INSTALL_PATH_INCLUDE}")
+    add_library(BEP::${BEP_NAME} INTERFACE IMPORTED GLOBAL ${BEP_NAME}_external)
+    target_include_directories(BEP::${BEP_NAME} INTERFACE ${INSTALL_PATH_INCLUDE})
+    target_link_libraries(BEP::${BEP_NAME} INTERFACE ${INSTALL_PATH_LIB}/*.*)
+    add_dependencies(BEP::${BEP_NAME} ${BEP_NAME}_external)
+endfunction()
