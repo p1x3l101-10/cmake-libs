@@ -76,7 +76,7 @@ function(BuildExternalProject)
             BUILD_COMMAND ${MESON_BIN} compile -C <BINARY_DIR> --verbose
             INSTALL_COMMAND ${MESON_BIN} install -C <BINARY_DIR>
         endif()
-        GIT_REPO ${BEP_GIT_REPO}
+        GIT_REPOSITORY ${BEP_GIT_REPO}
         GIT_TAG ${BEP_GIT_REV}
         GIT_SHALLOW true
         GIT_PROGRESS true
