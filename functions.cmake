@@ -72,7 +72,7 @@ function(BuildExternalProject)
     if(BEP_MESON_PROJECT)
         ExternalProject_Add(
             ${BEP_NAME}_external
-            CONFIGURE_COMMAND ${MESON_BIN} setup -Dmaintainer-mode=false --prefix <INSTALL_DIR> <BINARY_DIR> <SOURCE_DIR>
+            CONFIGURE_COMMAND ${MESON_BIN} setup --prefix <INSTALL_DIR> <BINARY_DIR> <SOURCE_DIR>
             BUILD_COMMAND ${MESON_BIN} compile -C <BINARY_DIR> --verbose
             INSTALL_COMMAND ${MESON_BIN} install -C <BINARY_DIR>
             GIT_REPOSITORY ${BEP_GIT_REPO}
