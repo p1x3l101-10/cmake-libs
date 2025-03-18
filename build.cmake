@@ -1,7 +1,7 @@
 function(BUILD)
     # Set valid arguments
     set(options INSTALL_TARGET USE_GENERATOR)
-    set(oneValueArgs STATIC_LIBRARY SHARED_LIBRARY BINARY HEADER_LIBRARY PRIVATE_COMPILE_OPTIONS PUBLIC_COMPILE_OPTIONS INTERFACE_COMPILE_OPTIONS PRIVATE_LINK_OPTIONS PUBLIC_LINK_OPTIONS INTERFACE_LINK_OPTIONS FILE_EXTENSION GENERATOR_EXTENSION)
+    set(oneValueArgs STATIC_LIBRARY SHARED_LIBRARY BINARY HEADER_LIBRARY PRIVATE_COMPILE_OPTIONS PUBLIC_COMPILE_OPTIONS INTERFACE_COMPILE_OPTIONS PRIVATE_LINK_OPTIONS PUBLIC_LINK_OPTIONS INTERFACE_LINK_OPTIONS FILE_EXTENSION GENERATOR_EXTENSION GENERATOR_BINARY)
     set(multiValueArgs LIBRARIES PUBLIC_LIBRARIES INTERFACE_LIBRARIES INCLUDE)
 
     # Add modules for optionals
@@ -23,27 +23,32 @@ function(BUILD)
         if(NOT BUILD_GENERATOR_EXTENSION)
             set(BUILD_GENERATOR_EXTENSION "bash")
         endif()
+        if(NOT BUILD_GENERATOR_BINARY)
+            set(BUILD_GENERATOR_BINARY "") # Blank value if unused
+        endif()
         set(CODE_GENERATOR "generator.${BUILD_GENERATOR_EXTENSION}")
     elseif()
-        set(CODE_GENERATOR "") #Undef if unused
+        # Blank value if unused
+        set(CODE_GENERATOR "")
+        set(BUILD_GENERATOR_BINARY "")
     endif()
 
     # Add basic build rules and export the build target in one variable
     if(BUILD_STATIC_LIBRARY)
         message(VERBOSE "Creating ruleset for static library: ${BUILD_STATIC_LIBRARY}...")
-        module(staticLib ${BUILD_STATIC_LIBRARY} ${BUILD_FILE_EXTENSION} "${CODE_GENERATOR}")
+        module(staticLib ${BUILD_STATIC_LIBRARY} ${BUILD_FILE_EXTENSION} "${CODE_GENERATOR}" "${BUILD_GENERATOR_BINARY}")
         set(BUILD_TARGET ${BUILD_STATIC_LIBRARY})
     elseif(BUILD_SHARED_LIBRARY)
         message(VERBOSE "Creating ruleset for shared library: ${BUILD_SHARED_LIBRARY}...")
-        module(staticLib ${BUILD_SHARED_LIBRARY} ${BUILD_FILE_EXTENSION} "${CODE_GENERATOR}")
+        module(staticLib ${BUILD_SHARED_LIBRARY} ${BUILD_FILE_EXTENSION} "${CODE_GENERATOR}" "${BUILD_GENERATOR_BINARY}")
         set(BUILD_TARGET ${BUILD_SHARED_LIBRARY})
     elseif(BUILD_BINARY)
         message(VERBOSE "Creating ruleset for binary: ${BUILD_BINARY}...")
-        module(bin ${BUILD_BINARY} ${BUILD_FILE_EXTENSION} "${CODE_GENERATOR}")
+        module(bin ${BUILD_BINARY} ${BUILD_FILE_EXTENSION} "${CODE_GENERATOR}" "${BUILD_GENERATOR_BINARY}")
         set(BUILD_TARGET ${BUILD_BINARY})
     elseif(BUILD_HEADER_LIBRARY)
         message(VERBOSE "Creating ruleset for header library: ${BUILD_HEADER_LIBRARY}...")
-        module(header ${BUILD_HEADER_LIBRARY} ${BUILD_FILE_EXTENSION} "${CODE_GENERATOR}")
+        module(header ${BUILD_HEADER_LIBRARY} ${BUILD_FILE_EXTENSION} "${CODE_GENERATOR}" "${BUILD_GENERATOR_BINARY}")
         set(BUILD_TARGET ${BUILD_HEADER_LIBRARY})
     elseif()
         message(FATAL_ERROR "You need to specify a build type/target")

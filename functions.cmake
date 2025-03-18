@@ -1,8 +1,13 @@
-function(module type name fileExt codeGen)
+function(module type name fileExt codeGen codeGenExec)
     if(NOT (codeGen STREQUAL ""))
         message(VERBOSE "    Running code generator...")
+        if(codeGenExec STREQUAL "")
+            set(CODE_GENERATOR "${codeGenExec} ${CMAKE_CURRENT_SOURCE_DIR}/${name}/${codeGen}")
+        else()
+            set(CODE_GENERATOR "${CMAKE_CURRENT_SOURCE_DIR}/${name}/${codeGen}")
+        endif()
         execute_process(
-            COMMAND ${CMAKE_CURRENT_SOURCE_DIR}/${name}/${codeGen}
+            COMMAND ${CODE_GENERATOR}
             WORKING_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}/${name}
             OUTPUT_QUIET
         )
