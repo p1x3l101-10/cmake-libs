@@ -9,6 +9,7 @@ function(module type name fileExt codeGen codeGenExec)
         execute_process(
             COMMAND ${CODE_GENERATOR}
             WORKING_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}/${name}
+            COMMAND_ERROR_IS_FATAL ANY
             OUTPUT_QUIET
         )
     endif()
