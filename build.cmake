@@ -137,7 +137,7 @@ function(BUILD)
             list(APPEND MACRO_LIST "${MACRO_NAME}")
         endforeach()
         # Generate buildinfo.hpp
-        file(WRITE "${BUILDINFO_HPP}" "#pragma once\n#include \"config.hpp\"\n#include <map>\n#include <array>\n#include <string>\n#define STRINGIFY(x) #x\n\nconstexpr std::map<std::string,std::string> configInfo{\n")
+        file(WRITE "${BUILDINFO_HPP}" "#pragma once\n#include \"config.hpp\"\n#include <map>\n#include <array>\n#include <string>\n#define STRINGIFY(x) #x\n\nconst std::map<std::string,std::string> configInfo{\n")
         list(GET MACRO_LIST -1 LAST_ITEM)
         foreach(MACRO IN LISTS MACRO_LIST)
             set(LINE "{\"${MACRO}\",\n#ifdef ${MACRO}\nSTRINGIFY(${MACRO})\n#else\n\"<UNDEFINED>\"\n#endif\n}")
