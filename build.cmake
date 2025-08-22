@@ -19,7 +19,6 @@ function(BUILD)
       GENERATOR_EXTENSION
       GENERATOR_BINARY
       EMBED_LICENSE
-      BUILD_FILE_EXTENSION
     )
     set(multiValueArgs
       LIBRARIES
