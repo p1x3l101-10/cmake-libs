@@ -50,7 +50,7 @@ function(BUILD)
             set(BUILD_GENERATOR_BINARY "") # Blank value if unused
         endif()
         set(CODE_GENERATOR "generator.${BUILD_GENERATOR_EXTENSION}")
-    elseif()
+    else()
         # Blank value if unused
         set(CODE_GENERATOR "")
         set(BUILD_GENERATOR_BINARY "")
@@ -73,7 +73,7 @@ function(BUILD)
         message(VERBOSE "Creating ruleset for header library: ${BUILD_HEADER_LIBRARY}...")
         module(header ${BUILD_HEADER_LIBRARY} ${BUILD_FILE_EXTENSION} "${CODE_GENERATOR}" "${BUILD_GENERATOR_BINARY}")
         set(BUILD_TARGET ${BUILD_HEADER_LIBRARY})
-    elseif()
+    else()
         message(FATAL_ERROR "You need to specify a build type/target")
     endif()
 
