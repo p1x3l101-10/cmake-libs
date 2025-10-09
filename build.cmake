@@ -151,7 +151,7 @@ function(BUILD)
         endif()
         configure_file(${CONFIG_HPP_IN} ${CONFIG_HPP})
         # Process the values for BUILDINFO
-        file(READ "${CONFIG_HPP_IN}" CONFIG_CONTENTS)
+        file(READ "${CONFIG_HPP}" CONFIG_CONTENTS)
         # Macro names
         string(REGEX MATCHALL "#define +([A-Za-z0-9_]+)" MACRO_MATCHES "${CONFIG_CONTENTS}")
         set(MACRO_LIST "")
