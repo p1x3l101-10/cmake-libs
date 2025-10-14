@@ -19,6 +19,7 @@ function(BUILD)
       GENERATOR_EXTENSION
       GENERATOR_BINARY
       EMBED_LICENSE
+      LTO_TYPE
     )
     set(multiValueArgs
       LIBRARIES
@@ -209,5 +210,20 @@ function(BUILD)
     if(${BUILD_INSTALL_TARGET})
         message(VERBOSE "    Adding install rule")
         install_target(${BUILD_TARGET})
+    endif()
+
+    # Set LTO for the binary, if not one of the three types then this section is ignored
+    if(${LTO_TYPE} STREQUAL "thin")
+        # Thin LTO, faster and is better with incrimental rebuilds, but can give bigger bins
+        target_compile_options(${CMAKE_PROJECT_NAME} PUBLIC -flto=thin)
+        target_compile_options(${CMAKE_PROJECT_NAME} PUBLIC -ffat-lto-object)
+    elseif(${LTO_TYPE} STREQUAL "normal")
+        # Standard LTO, better but way slower (use mostly for release)
+        target_compile_options(${CMAKE_PROJECT_NAME} PUBLIC -flto)
+        target_compile_options(${CMAKE_PROJECT_NAME} PUBLIC -ffat-lto-object)
+    elseif(${LTO_TYPE} STREQUAL "off")
+        # Explicitly disable LTO
+        target_compile_options(${CMAKE_PROJECT_NAME} PUBLIC -fno-lto)
+        target_compile_options(${CMAKE_PROJECT_NAME} PUBLIC -ffat-lto-object)
     endif()
 endfunction()
