@@ -213,14 +213,16 @@ function(BUILD)
     endif()
 
     # Set LTO for the binary, if not one of the three types then this section is ignored
-    if(${BUILD_LTO_TYPE} STREQUAL "thin")
-        # Thin LTO, faster and is better with incrimental rebuilds, but can give bigger bins
-        target_compile_options(${BUILD_TARGET} PRIVATE -flto=thin)
-    elseif(${BUILD_LTO_TYPE} STREQUAL "normal")
-        # Standard LTO, better but way slower (use mostly for release)
-        target_compile_options(${BUILD_TARGET} PRIVATE -flto)
-    elseif(${BUILD_LTO_TYPE} STREQUAL "off")
-        # Explicitly disable LTO
-        target_compile_options(${BUILD_TARGET} PRIVATE -fno-lto)
+    if(${BUILD_LTO_TYPE})
+        if(${BUILD_LTO_TYPE} STREQUAL "thin")
+            # Thin LTO, faster and is better with incrimental rebuilds, but can give bigger bins
+            target_compile_options(${BUILD_TARGET} PRIVATE -flto=thin)
+        elseif(${BUILD_LTO_TYPE} STREQUAL "normal")
+            # Standard LTO, better but way slower (use mostly for release)
+            target_compile_options(${BUILD_TARGET} PRIVATE -flto)
+        elseif(${BUILD_LTO_TYPE} STREQUAL "off")
+            # Explicitly disable LTO
+            target_compile_options(${BUILD_TARGET} PRIVATE -fno-lto)
+        endif()
     endif()
 endfunction()
