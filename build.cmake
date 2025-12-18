@@ -3,6 +3,7 @@ function(BUILD)
     set(options
       INSTALL_TARGET
       USE_GENERATOR
+      GENERATE_MODULES
     )
     set(oneValueArgs
       STATIC_LIBRARY
@@ -20,6 +21,7 @@ function(BUILD)
       GENERATOR_BINARY
       EMBED_LICENSE
       LTO_TYPE
+      MODULE_EXTENSION
     )
     set(multiValueArgs
       LIBRARIES
@@ -27,12 +29,6 @@ function(BUILD)
       INTERFACE_LIBRARIES
       INCLUDE
     )
-
-    # Add modules for optionals
-    if(USE_CPP_20_IMPORTS)
-        list(APPEND oneValueArgs MODULE_EXTENSION)
-        list(APPEND options GENERATE_MODULES)
-    endif()
 
     # Parse args
     cmake_parse_arguments(BUILD "${options}" "${oneValueArgs}" "${multiValueArgs}" ${ARGN} )
@@ -128,7 +124,7 @@ function(BUILD)
     # Modules
     if(BUILD_GENERATE_MODULES)
         if(NOT BUILD_MODULE_EXTENSION)
-            set(BUILD_MODULE_EXTENSION "ixx")
+            set(BUILD_MODULE_EXTENSION "cppm")
         endif()
         message(VERBOSE "    Using c++ modules")
         file(GLOB_RECURSE modules CONFIGURE_DEPENDS "${CMAKE_CURRENT_SOURCE_DIR}/${BUILD_TARGET}/modules/*.${BUILD_MODULE_EXTENSION}")
